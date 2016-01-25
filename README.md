@@ -1,5 +1,5 @@
 #BusinessTimeDelta
-It's timedelta, but for business hours. This module helps you calculate the difference in working hours between two datetimes. It supports common scenarios such as time zones, holidays, etc.
+Python's timedelta for business time. This module helps you calculate the exact difference in working time between two datetimes. It supports common scenarios such as custom schedules, holidays, and time zones.
 
 ##Installation
 Use pip to install BusinessTimeDelta.
