@@ -1,4 +1,15 @@
 import datetime
+import pytz
+
+
+def localize_unlocalized_dt(dt):
+    """Turn naive datetime objects into UTC.
+    Don't do anything if the datetime object is aware.
+    https://docs.python.org/3/library/datetime.html#datetime.timezone
+    """
+    if dt.tzinfo is not None and dt.tzinfo.utcoffset(dt) is not None:
+        return dt
+    return pytz.utc.localize(dt)
 
 
 class BusinessTimeDelta(object):
@@ -18,6 +29,7 @@ class BusinessTimeDelta(object):
         return self.timedelta == other.timedelta
 
     def __add__(self, dt):
+        dt = localize_unlocalized_dt(dt)
         td_left = self.timedelta
         while True:
             period_start, period_end = self.rule.next(dt)
@@ -34,6 +46,7 @@ class BusinessTimeDelta(object):
         return self.__add__(dt)
 
     def __sub__(self, dt):
+        dt = localize_unlocalized_dt(dt)
         td_left = self.timedelta
         while True:
             period_start, period_end = self.rule.previous(dt)

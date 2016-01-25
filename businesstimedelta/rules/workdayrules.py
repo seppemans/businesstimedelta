@@ -1,12 +1,13 @@
 import datetime
 from rule import Rule
+from ..businesstimedelta import localize_unlocalized_dt
 
 
 class WorkDayRule(Rule):
     """Basic implementation of a working day that starts and ends some days of
     the week at the same start and end time. Ex. Monday through Friday in the EST timezone."""
 
-    def __init__(self, start_time=datetime.time(9), end_time=datetime.time(17),
+    def __init__(self, start_time=datetime.time(9), end_time=datetime.time(18),
                  working_days=[0, 1, 2, 3, 4], *args, **kwargs):
         """
         Args:
@@ -22,6 +23,7 @@ class WorkDayRule(Rule):
         self.working_days = working_days
 
     def next(self, dt, reverse=False):
+        dt = localize_unlocalized_dt(dt)
         localized_dt = dt.astimezone(self.tz)
 
         # Figure out what is the first upcoming working date
@@ -46,6 +48,7 @@ class WorkDayRule(Rule):
         return (start, end)
 
     def previous(self, dt, *args, **kwargs):
+        dt = localize_unlocalized_dt(dt)
         localized_dt = dt.astimezone(self.tz)
 
         # Figure out what is the first upcoming working date
@@ -72,6 +75,11 @@ class WorkDayRule(Rule):
 
 class LunchTimeRule(WorkDayRule):
     """Convenience function for lunch breaks."""
-    def __init__(self, *args, **kwargs):
-        super(LunchTimeRule, self).__init__(*args, **kwargs)
+    def __init__(self,  start_time=datetime.time(12), end_time=datetime.time(13),
+                 working_days=[0, 1, 2, 3, 4], *args, **kwargs):
+        super(LunchTimeRule, self).__init__(
+            start_time=start_time,
+            end_time=end_time,
+            working_days=working_days,
+            *args, **kwargs)
         self.time_off = True

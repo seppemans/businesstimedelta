@@ -1,15 +1,9 @@
 from setuptools import setup
 
-
-def readme():
-    with open('README.md') as f:
-        return f.read()
-
 setup(
     name='businesstimedelta',
     version='0.1',
     description='Timedelta for business time. Supports exact amounts of time (hours, seconds), custom schedules, holidays, and time zones.',
-    long_description=readme(),
     classifiers=[
       'Development Status :: 3 - Alpha',
       'License :: OSI Approved :: MIT License',
@@ -20,7 +14,7 @@ setup(
     url='http://github.com/seppemans/businesstimedelta',
     author='seppemans',
     license='MIT',
-    packages=['businesstimedelta'],
+    packages=['businesstimedelta', 'businesstimedelta.rules'],
     install_requires=[
         'pytz',
     ],

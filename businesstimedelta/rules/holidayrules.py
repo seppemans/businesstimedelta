@@ -1,15 +1,13 @@
 import datetime
 from rule import Rule
+from ..businesstimedelta import localize_unlocalized_dt
 
 
 class HolidayRule(Rule):
     def __init__(self, holidays, *args, **kwargs):
-        """
+        """This rule represents a set of holidays.
         Args:
-            start_time: a Time object that defines the start of a work day
-            end_time: a Time object that defines the end of a work day
-            working_days: days of the working week (0 = Monday)
-            tz: a pytz timezone
+            holidays: a list with dates, or an object from the Holidays python module.
         """
         kwargs['time_off'] = kwargs.get('time_off', True)
         self.holidays = holidays
@@ -18,9 +16,14 @@ class HolidayRule(Rule):
     def __repr__(self):
         return '<HolidayRule: %s>' % (self.holidays)
 
-    def next_holiday(self, date, reverse=False, max_days=365*2):
-        """To support both the Holidays module as well as lists of dates,
-        make sure to check we don't keep looping forever here."""
+    def next_holiday(self, date, reverse=False, max_days=365*5):
+        """ Get the next holiday
+        Args:
+            date: Find the next holiday after (or at) this date.
+            max_days: Allowing both a list of dates as well as an object defined by
+                the Holidays module requires a loop to test the holidays object against
+                individual dates. To avoid getting stuck in an infinite loop here we need
+                to give an upper limit of days to look into the future."""
 
         count = 0
         while True:
@@ -37,6 +40,11 @@ class HolidayRule(Rule):
                 return None
 
     def next(self, dt, reverse=False):
+        """Get the start and end of the next holiday after a datetime
+        Args:
+            dt: datetime
+        """
+        dt = localize_unlocalized_dt(dt)
         localized_dt = dt.astimezone(self.tz)
         next_holiday = self.next_holiday(localized_dt.date(), reverse=reverse)
         start = self.tz.localize(datetime.datetime.combine(next_holiday, datetime.time(0, 0, 0)))
@@ -52,5 +60,7 @@ class HolidayRule(Rule):
         return (start, end)
 
     def previous(self, *args, **kwargs):
+        """Reverse of next function
+        """
         kwargs['reverse'] = True
         return self.next(*args, **kwargs)
