@@ -1,4 +1,4 @@
 from rule import *
-from ruleset import *
+from rules import *
 from workdayrules import *
 from holidayrules import *

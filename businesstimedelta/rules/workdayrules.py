@@ -1,8 +1,8 @@
 import datetime
-from rule import BusinessTimeRule
+from rule import Rule
 
 
-class WorkDayRule(BusinessTimeRule):
+class WorkDayRule(Rule):
     """Basic implementation of a working day that starts and ends some days of
     the week at the same start and end time. Ex. Monday through Friday in the EST timezone."""
 

@@ -17,7 +17,7 @@ import pytz
 import businesstimedelta
 
 # Define a working day
-workday = businesstimedelta.rules.WorkDayRule(
+workday = businesstimedelta.WorkDayRule(
     start_time=datetime.time(9),
     end_time=datetime.time(18),
     working_days=[0, 1, 2, 3, 4],
@@ -31,7 +31,7 @@ lunchbreak = businesstimedelta.LunchTimeRule(
     tz=pytz.utc)
 
 # Combine the two
-businesshrs = businesstimedelta.BusinessTimeRules([workday, lunchbreak])
+businesshrs = businesstimedelta.Rules([workday, lunchbreak])
 ```
 
 Calculate the business time between two datetimes
@@ -58,7 +58,7 @@ import holidays as pyholidays
 
 ca_holidays = pyholidays.US(state='CA')
 holidays = businesstimedelta.HolidayRule(ca_holidays)
-businesshrs = businesstimedelta.BusinessTimeRules([workday, lunchbreak, holidays])
+businesshrs = businesstimedelta.Rules([workday, lunchbreak, holidays])
 
 # Christmas is on Friday 2015/12/25
 start = datetime.datetime(2015, 12, 21, 9, 0, 0, tzinfo=pytz.utc)

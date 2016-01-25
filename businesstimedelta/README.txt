@@ -20,7 +20,7 @@ lunchbreak = businesstimedelta.LunchTimeRule(
     tz=pytz.utc)
 
 # Combine!
-businesshrs = businesstimedelta.BusinessTimeRules([workday, lunchbreak])
+businesshrs = businesstimedelta.Rules([workday, lunchbreak])
 
 
 #Business hours between two datetimes::

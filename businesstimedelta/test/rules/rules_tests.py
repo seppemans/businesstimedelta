@@ -1,11 +1,11 @@
 import datetime
 import unittest
 import pytz
-from ...rules.ruleset import BusinessTimeRules
+from ...rules.rules import Rules
 from ...rules.workdayrules import WorkDayRule, LunchTimeRule
 
 
-class RuleSetTest(unittest.TestCase):
+class RulesTest(unittest.TestCase):
     def setUp(self):
         self.utc = pytz.timezone('UTC')
         self.workdayrule = WorkDayRule(
@@ -18,7 +18,7 @@ class RuleSetTest(unittest.TestCase):
             end_time=datetime.time(13),
             working_days=[0, 1, 2, 3, 4],
             tz=self.utc)
-        self.ruleset = BusinessTimeRules([
+        self.rules = Rules([
             self.workdayrule,
             self.lunchbreak])
 
@@ -26,7 +26,7 @@ class RuleSetTest(unittest.TestCase):
         dt = self.utc.localize(datetime.datetime(2016, 1, 25, 12, 30, 0))
 
         self.assertEqual(
-            self.ruleset.next(dt),
+            self.rules.next(dt),
             (
                 self.utc.localize(datetime.datetime(2016, 1, 25, 13, 0, 0)),
                 self.utc.localize(datetime.datetime(2016, 1, 25, 17, 0, 0))

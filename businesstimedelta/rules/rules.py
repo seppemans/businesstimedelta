@@ -1,11 +1,11 @@
-from rule import BusinessTimeRule
+from rule import Rule
 
 
-class BusinessTimeRules(BusinessTimeRule):
+class Rules(Rule):
     def __init__(self, rules, *args, **kwargs):
         self.available_rules = [x for x in rules if not x.time_off]
         self.unavailable_rules = [x for x in rules if x.time_off]
-        super(BusinessTimeRules, self).__init__(*args, **kwargs)
+        super(Rules, self).__init__(*args, **kwargs)
 
     def next(self, dt):
         min_start = None

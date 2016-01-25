@@ -1,8 +1,8 @@
 import datetime
-from rule import BusinessTimeRule
+from rule import Rule
 
 
-class HolidayRule(BusinessTimeRule):
+class HolidayRule(Rule):
     def __init__(self, holidays, *args, **kwargs):
         """
         Args:

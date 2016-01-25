@@ -3,7 +3,7 @@ import datetime
 from ..businesstimedelta import BusinessTimeDelta
 
 
-class BusinessTimeRule(object):
+class Rule(object):
     """This object contains 'blocks' of time. It can define either working hours
     or an exclusions of working hous (such as holidays, lunch break)"""
     def __init__(self, tz=pytz.timezone('US/Pacific'), time_off=False):
