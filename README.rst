@@ -15,6 +15,7 @@ Example Use
 -----------
 
 Define your business hours::
+
     import datetime
     import pytz
     import businesstimedelta
@@ -37,17 +38,20 @@ Define your business hours::
         businesshrs = businesstimedelta.BusinessTimeRules([workday, lunchbreak])
 
 Calculate the business time between two datetimes::
+
     start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.utc)
     end = datetime.datetime(2016, 1, 25, 9, 0, 0, tzinfo=pytz.utc)
     print businesshrs.difference(start, end)
     # <BusinessTimeDelta 40 hours 0 seconds>
 
 Add business time to a datetime::
+
     start = datetime.datetime(2016, 1, 18, 8, 0, 0, tzinfo=pytz.utc)
     print start + businesstimedelta.BusinessTimeDelta(businesshrs, hours=40)
     # 2016-01-25 09:00:00+00:00
 
 To define holidays, simply use the Holidays package::
+
     pip install holidays
     import holidays as pyholidays
 
