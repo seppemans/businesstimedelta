@@ -72,19 +72,19 @@ If your datetimes are not timezone aware, they will be localized to UTC (see exa
 
 Let's say you want to calculate the business time overlap between a working day in San Francisco and in Santiago, Chile:
 ```python
-santiago_workday = WorkDayRule(
+santiago_workday = businesstimedelta.WorkDayRule(
     start_time=datetime.time(9),
     end_time=datetime.time(18),
     working_days=[0, 1, 2, 3, 4],
     tz=pytz.timezone('America/Santiago'))
 
-santiago_lunchbreak = LunchTimeRule(
+santiago_lunchbreak = businesstimedelta.LunchTimeRule(
     start_time=datetime.time(12),
     end_time=datetime.time(13),
     working_days=[0, 1, 2, 3, 4],
     tz=pytz.timezone('America/Santiago'))
 
-santiago_businesshrs = Rules([santiago_workday, santiago_lunchbreak])
+santiago_businesshrs = businesstimedelta.Rules([santiago_workday, santiago_lunchbreak])
 
 sf_start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
 sf_end = datetime.datetime(2016, 1, 18, 18, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
