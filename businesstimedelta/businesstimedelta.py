@@ -13,11 +13,15 @@ def localize_unlocalized_dt(dt):
 
 
 class BusinessTimeDelta(object):
-    def __init__(self, rule, hours=0, seconds=0):
+    def __init__(self, rule, hours=0, seconds=0, timedelta=None):
         self.rule = rule
-        self.timedelta = datetime.timedelta(
-            seconds=seconds,
-            hours=hours)
+
+        if timedelta:
+            self.timedelta = timedelta
+        else:
+            self.timedelta = datetime.timedelta(
+                seconds=seconds,
+                hours=hours)
 
     def __repr__(self):
         hours = self.timedelta.days * 24
@@ -28,36 +32,46 @@ class BusinessTimeDelta(object):
     def __eq__(self, other):
         return self.timedelta == other.timedelta
 
-    def __add__(self, dt):
-        dt = localize_unlocalized_dt(dt)
-        td_left = self.timedelta
-        while True:
-            period_start, period_end = self.rule.next(dt)
-            period_delta = period_end - period_start
+    def __add__(self, other):
+        if isinstance(other, BusinessTimeDelta) and other.rule == self.rule:
+            return BusinessTimeDelta(self.rule, timedelta=self.timedelta + other.timedelta)
 
-            # If we ran out of timedelta, return
-            if period_delta > td_left:
-                return period_start + td_left
+        elif isinstance(other, datetime.datetime):
+            dt = localize_unlocalized_dt(other)
+            td_left = self.timedelta
+            while True:
+                period_start, period_end = self.rule.next(dt)
+                period_delta = period_end - period_start
 
-            td_left -= period_delta
-            dt = period_end
+                # If we ran out of timedelta, return
+                if period_delta > td_left:
+                    return period_start + td_left
 
-    def __radd__(self, dt):
-        return self.__add__(dt)
+                td_left -= period_delta
+                dt = period_end
 
-    def __sub__(self, dt):
-        dt = localize_unlocalized_dt(dt)
-        td_left = self.timedelta
-        while True:
-            period_start, period_end = self.rule.previous(dt)
-            period_delta = period_end - period_start
+        raise NotImplementedError
 
-            # If we ran out of timedelta, return
-            if period_delta > td_left:
-                return period_end - td_left
+    def __radd__(self, other):
+        return self.__add__(other)
 
-            td_left -= period_delta
-            dt = period_start
+    def __sub__(self, other):
+        if isinstance(other, BusinessTimeDelta) and other.rule == self.rule:
+            return BusinessTimeDelta(self.rule, timedelta=self.timedelta - other.timedelta)
 
-    def __rsub__(self, dt):
-        return self.__sub__(dt)
+        elif isinstance(other, datetime.datetime):
+            dt = localize_unlocalized_dt(other)
+            td_left = self.timedelta
+            while True:
+                period_start, period_end = self.rule.previous(dt)
+                period_delta = period_end - period_start
+
+                # If we ran out of timedelta, return
+                if period_delta > td_left:
+                    return period_end - td_left
+
+                td_left -= period_delta
+                dt = period_start
+
+    def __rsub__(self, other):
+        return self.__sub__(other)

@@ -53,6 +53,32 @@ class BusinessTimeDeltaTest(unittest.TestCase):
         )
 
 
+class BusinessTimeDeltaArithmeticTest(unittest.TestCase):
+    def setUp(self):
+        self.utc = pytz.timezone('UTC')
+        self.workdayrule = WorkDayRule(
+            start_time=datetime.time(9),
+            end_time=datetime.time(17),
+            working_days=[0, 1, 2, 3, 4],
+            tz=self.utc)
+
+    def test_addition(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=2)
+        td2 = BusinessTimeDelta(self.workdayrule, hours=3)
+        self.assertEqual(
+            td + td2,
+            BusinessTimeDelta(self.workdayrule, hours=5)
+        )
+
+    def test_subtraction(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=3)
+        td2 = BusinessTimeDelta(self.workdayrule, hours=1)
+        self.assertEqual(
+            td - td2,
+            BusinessTimeDelta(self.workdayrule, hours=2)
+        )
+
+
 class ReadmeTest(unittest.TestCase):
     def test_readme(self):
         workday = WorkDayRule(
