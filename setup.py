@@ -17,6 +17,7 @@ setup(
     packages=['businesstimedelta', 'businesstimedelta.rules'],
     install_requires=[
         'pytz',
+        'holidays'
     ],
     zip_safe=False,
     test_suite='nose.collector',
