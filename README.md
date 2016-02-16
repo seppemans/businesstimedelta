@@ -1,6 +1,8 @@
 #BusinessTimeDelta
 Python's timedelta for business time. This module helps you calculate the exact working time between two datetimes. It supports common scenarios such as custom schedules, holidays, and time zones.
 
+[![Build Status](https://travis-ci.org/seppemans/businesstimedelta.svg?branch=master)](https://travis-ci.org/seppemans/businesstimedelta)
+
 ##Installation
 Use pip to install BusinessTimeDelta.
 
