@@ -37,8 +37,13 @@ Calculate the business time between two datetimes
 ```python
 start = datetime.datetime(2016, 1, 18, 9, 0, 0)
 end = datetime.datetime(2016, 1, 25, 9, 0, 0)
-print businesshrs.difference(start, end)
+bdiff = businesshrs.difference(start, end)
+
+print bdiff
 # <BusinessTimeDelta 40 hours 0 seconds>
+
+print "%s hours and %s seconds" % (bdiff.hours, bdiff.seconds)
+# 40 hours and 0 seconds
 ```
 
 Business time arithmetic

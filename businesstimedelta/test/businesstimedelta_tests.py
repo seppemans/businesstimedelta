@@ -64,6 +64,12 @@ class BusinessTimeDeltaTest(unittest.TestCase):
         self.assertEqual(td.hours, 365)
         self.assertEqual(td.seconds, 1)
 
+    def test_small_hours_and_seconds_property(self):
+        orig_td = datetime.timedelta(seconds=1)
+        td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
+        self.assertEqual(td.hours, 0)
+        self.assertEqual(td.seconds, 1)
+
 
 class BusinessTimeDeltaArithmeticTest(unittest.TestCase):
     def setUp(self):

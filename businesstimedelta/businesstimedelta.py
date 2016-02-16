@@ -75,7 +75,7 @@ class BusinessTimeDelta(object):
 
     @property
     def hours(self):
-        return self.timedelta.total_seconds() // (60*60)
+        return int(self.timedelta.total_seconds() // (60*60))
 
     @property
     def seconds(self):
