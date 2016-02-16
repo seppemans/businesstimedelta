@@ -37,8 +37,13 @@ Calculate the business time between two datetimes
 ```python
 start = datetime.datetime(2016, 1, 18, 9, 0, 0)
 end = datetime.datetime(2016, 1, 25, 9, 0, 0)
-print businesshrs.difference(start, end)
+bdiff = businesshrs.difference(start, end)
+
+print bdiff
 # <BusinessTimeDelta 40 hours 0 seconds>
+
+print "%s hours and %s seconds" % (bdiff.hours, bdiff.seconds)
+# 40 hours and 0 seconds
 ```
 
 Business time arithmetic
@@ -72,22 +77,23 @@ If your datetimes are not timezone aware, they will be localized to UTC (see exa
 
 Let's say you want to calculate the business time overlap between a working day in San Francisco and in Santiago, Chile:
 ```python
-santiago_workday = WorkDayRule(
+santiago_workday = businesstimedelta.WorkDayRule(
     start_time=datetime.time(9),
     end_time=datetime.time(18),
     working_days=[0, 1, 2, 3, 4],
     tz=pytz.timezone('America/Santiago'))
 
-santiago_lunchbreak = LunchTimeRule(
+santiago_lunchbreak = businesstimedelta.LunchTimeRule(
     start_time=datetime.time(12),
     end_time=datetime.time(13),
     working_days=[0, 1, 2, 3, 4],
     tz=pytz.timezone('America/Santiago'))
 
-santiago_businesshrs = Rules([santiago_workday, santiago_lunchbreak])
+santiago_businesshrs = businesstimedelta.Rules([santiago_workday, santiago_lunchbreak])
 
-sf_start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
-sf_end = datetime.datetime(2016, 1, 18, 18, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
+sf_tz = pytz.timezone('America/Los_Angeles')
+sf_start = sf_tz.localize(datetime.datetime(2016, 1, 18, 9, 0, 0)
+sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0)
 
 print santiago_businesshrs.difference(sf_start, sf_end)
 # <BusinessTimeDelta 4 hours 0 seconds>

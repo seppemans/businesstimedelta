@@ -24,10 +24,7 @@ class BusinessTimeDelta(object):
                 hours=hours)
 
     def __repr__(self):
-        hours = self.timedelta.days * 24
-        hours += (self.timedelta.seconds - self.timedelta.seconds % (60*60)) / (60*60)
-        seconds = self.timedelta.seconds % (60*60)
-        return '<BusinessTimeDelta %s hours %s seconds>' % (hours, seconds)
+        return '<BusinessTimeDelta %s hours %s seconds>' % (self.hours, self.seconds)
 
     def __eq__(self, other):
         return self.timedelta == other.timedelta
@@ -75,3 +72,11 @@ class BusinessTimeDelta(object):
 
     def __rsub__(self, other):
         return self.__sub__(other)
+
+    @property
+    def hours(self):
+        return int(self.timedelta.total_seconds() // (60*60))
+
+    @property
+    def seconds(self):
+        return int(self.timedelta.total_seconds() % (60*60))

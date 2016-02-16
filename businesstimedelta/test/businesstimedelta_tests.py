@@ -52,6 +52,24 @@ class BusinessTimeDeltaTest(unittest.TestCase):
             self.utc.localize(datetime.datetime(2016, 1, 22, 11, 14, 0))
         )
 
+    def test_hours_and_seconds_property(self):
+        orig_td = datetime.timedelta(seconds=(3600*2)+1)
+        td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
+        self.assertEqual(td.hours, 2)
+        self.assertEqual(td.seconds, 1)
+
+    def test_large_hours_and_seconds_property(self):
+        orig_td = datetime.timedelta(seconds=(3600*365)+1)
+        td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
+        self.assertEqual(td.hours, 365)
+        self.assertEqual(td.seconds, 1)
+
+    def test_small_hours_and_seconds_property(self):
+        orig_td = datetime.timedelta(seconds=1)
+        td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
+        self.assertEqual(td.hours, 0)
+        self.assertEqual(td.seconds, 1)
+
 
 class BusinessTimeDeltaArithmeticTest(unittest.TestCase):
     def setUp(self):
@@ -96,10 +114,10 @@ class ReadmeTest(unittest.TestCase):
 
         start = datetime.datetime(2016, 1, 18, 9, 0, 0)
         end = datetime.datetime(2016, 1, 25, 9, 0, 0)
-        self.assertEqual(
-            str(businesshrs.difference(start, end)),
-            "<BusinessTimeDelta 40 hours 0 seconds>"
-        )
+
+        bdiff = businesshrs.difference(start, end)
+        self.assertEqual(bdiff.hours, 40)
+        self.assertEqual(bdiff.seconds, 0)
 
         self.assertEqual(
             str(start + BusinessTimeDelta(businesshrs, hours=40)),
@@ -117,10 +135,9 @@ class ReadmeTest(unittest.TestCase):
 
         start = datetime.datetime(2015, 12, 21, 9, 0, 0)
         end = datetime.datetime(2015, 12, 28, 9, 0, 0)
-        self.assertEqual(
-            str(businesshrs.difference(start, end)),
-            "<BusinessTimeDelta 32 hours 0 seconds>"
-        )
+        bdiff = businesshrs.difference(start, end)
+        self.assertEqual(bdiff.hours, 32)
+        self.assertEqual(bdiff.seconds, 0)
 
     def test_readme_localized(self):
         santiago_workday = WorkDayRule(
@@ -137,10 +154,10 @@ class ReadmeTest(unittest.TestCase):
 
         santiago_businesshrs = Rules([santiago_workday, santiago_lunchbreak])
 
-        sf_start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
-        sf_end = datetime.datetime(2016, 1, 18, 18, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
+        sf_tz = pytz.timezone('America/Los_Angeles')
+        sf_start = sf_tz.localize(datetime.datetime(2016, 1, 18, 9, 0, 0))
+        sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0))
 
-        self.assertEqual(
-            str(santiago_businesshrs.difference(sf_start, sf_end)),
-            "<BusinessTimeDelta 4 hours 0 seconds>"
-        )
+        bdiff = santiago_businesshrs.difference(sf_start, sf_end)
+        self.assertEqual(bdiff.hours, 4)
+        self.assertEqual(bdiff.seconds, 0)
