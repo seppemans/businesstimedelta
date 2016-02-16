@@ -1,4 +1,4 @@
-from rule import Rule
+from .rule import Rule
 from ..businesstimedelta import localize_unlocalized_dt
 
 
