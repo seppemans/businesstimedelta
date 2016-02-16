@@ -91,7 +91,7 @@ santiago_lunchbreak = businesstimedelta.LunchTimeRule(
 
 santiago_businesshrs = businesstimedelta.Rules([santiago_workday, santiago_lunchbreak])
 
-sf_tz = pytz.timezone('America/Los_Angeles'
+sf_tz = pytz.timezone('America/Los_Angeles')
 sf_start = sf_tz.localize(datetime.datetime(2016, 1, 18, 9, 0, 0)
 sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0)
 
