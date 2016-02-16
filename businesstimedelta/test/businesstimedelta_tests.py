@@ -154,8 +154,9 @@ class ReadmeTest(unittest.TestCase):
 
         santiago_businesshrs = Rules([santiago_workday, santiago_lunchbreak])
 
-        sf_start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
-        sf_end = datetime.datetime(2016, 1, 18, 18, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
+        sf_tz = pytz.timezone('America/Los_Angeles')
+        sf_start = sf_tz.localize(datetime.datetime(2016, 1, 18, 9, 0, 0))
+        sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0))
 
         bdiff = santiago_businesshrs.difference(sf_start, sf_end)
         self.assertEqual(bdiff.hours, 4)

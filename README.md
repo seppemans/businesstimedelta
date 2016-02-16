@@ -91,8 +91,9 @@ santiago_lunchbreak = businesstimedelta.LunchTimeRule(
 
 santiago_businesshrs = businesstimedelta.Rules([santiago_workday, santiago_lunchbreak])
 
-sf_start = datetime.datetime(2016, 1, 18, 9, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
-sf_end = datetime.datetime(2016, 1, 18, 18, 0, 0, tzinfo=pytz.timezone('America/Los_Angeles'))
+sf_tz = pytz.timezone('America/Los_Angeles'
+sf_start = sf_tz.localize(datetime.datetime(2016, 1, 18, 9, 0, 0)
+sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0)
 
 print santiago_businesshrs.difference(sf_start, sf_end)
 # <BusinessTimeDelta 4 hours 0 seconds>
