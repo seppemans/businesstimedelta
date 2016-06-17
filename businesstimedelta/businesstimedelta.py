@@ -13,8 +13,9 @@ def localize_unlocalized_dt(dt):
 
 
 class BusinessTimeDelta(object):
-    def __init__(self, rule, hours=0, seconds=0, timedelta=None):
+    def __init__(self, rule, hours=0, seconds=0, timedelta=None, include_final=False):
         self.rule = rule
+        self.include_final = include_final
 
         if timedelta:
             self.timedelta = timedelta
@@ -42,6 +43,8 @@ class BusinessTimeDelta(object):
 
                 # If we ran out of timedelta, return
                 if period_delta > td_left:
+                    if self.include_final and not td_left:
+                        return dt
                     return period_start + td_left
 
                 td_left -= period_delta
@@ -65,6 +68,8 @@ class BusinessTimeDelta(object):
 
                 # If we ran out of timedelta, return
                 if period_delta > td_left:
+                    if self.include_final and not td_left:
+                        return dt
                     return period_end - td_left
 
                 td_left -= period_delta
