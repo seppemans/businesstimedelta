@@ -34,6 +34,20 @@ class BusinessTimeDeltaTest(unittest.TestCase):
             self.utc.localize(datetime.datetime(2016, 1, 26, 13, 0, 0))
         )
 
+    def test_add_exactly_one_period(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=8)
+        dt = self.utc.localize(datetime.datetime(2016, 6, 17, 9, 0, 0))
+
+        self.assertEqual(
+            dt + td,
+            self.utc.localize(datetime.datetime(2016, 6, 20, 9, 0, 0))
+        )
+        td = BusinessTimeDelta(self.workdayrule, hours=8, include_final=True)
+        self.assertEqual(
+            dt + td,
+            self.utc.localize(datetime.datetime(2016, 6, 17, 17, 0, 0))
+        )
+
     def test_subtract_less_than_one_period(self):
         td = BusinessTimeDelta(self.workdayrule, hours=2)
         dt = self.utc.localize(datetime.datetime(2016, 1, 25, 11, 14, 0))
@@ -41,6 +55,23 @@ class BusinessTimeDeltaTest(unittest.TestCase):
         self.assertEqual(
             dt - td,
             self.utc.localize(datetime.datetime(2016, 1, 25, 9, 14, 0))
+        )
+
+    def test_subtract_exactly_one_period(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=8)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 25, 17, 0, 0))
+
+        self.assertEqual(
+            dt - td,
+            self.utc.localize(datetime.datetime(2016, 1, 22, 17, 0, 0))
+        )
+
+        td = BusinessTimeDelta(self.workdayrule, hours=8, include_final=True)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 25, 17, 0, 0))
+
+        self.assertEqual(
+            dt - td,
+            self.utc.localize(datetime.datetime(2016, 1, 25, 9, 0, 0))
         )
 
     def test_subtract_more_than_one_period(self):
