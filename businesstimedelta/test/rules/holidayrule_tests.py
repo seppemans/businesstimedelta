@@ -31,7 +31,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 self.utc.localize(datetime.datetime(2016, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
@@ -43,7 +43,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 self.utc.localize(datetime.datetime(2016, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
@@ -55,19 +55,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 dt,
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
-            )
-        )
-
-    def test_next_after_holiday(self):
-        dt = self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
-        holiday = HolidayRule(self.holidays)
-
-        self.assertEqual(
-            holiday.next(dt),
-            (
-                self.utc.localize(datetime.datetime(2017, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2017, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
@@ -79,19 +67,19 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 dt,
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
     def test_next_during_holiday_end_edge(self):
-        dt = self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+        dt = self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
         holiday = HolidayRule(self.holidays)
 
         self.assertEqual(
             holiday.next(dt),
             (
-                self.utc.localize(datetime.datetime(2016, 12, 25, 0, 0, 0)),
-                dt
+                self.utc.localize(datetime.datetime(2017, 12, 25, 0, 0, 0)),
+                self.utc.localize(datetime.datetime(2017, 12, 26, 0, 0, 0)),
             )
         )
 
@@ -103,7 +91,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 dt.astimezone(self.utc),
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
@@ -115,7 +103,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.previous(dt),
             (
                 self.utc.localize(datetime.datetime(2015, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2015, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2015, 12, 26, 0, 0, 0))
             )
         )
 
@@ -127,7 +115,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.previous(dt),
             (
                 self.utc.localize(datetime.datetime(2016, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2016, 12, 25, 23, 59, 59))
+                self.utc.localize(datetime.datetime(2016, 12, 26, 0, 0, 0))
             )
         )
 
@@ -151,7 +139,7 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.next(dt),
             (
                 self.utc.localize(datetime.datetime(2015, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2015, 12, 25, 23, 59, 59)),
+                self.utc.localize(datetime.datetime(2015, 12, 26, 0, 0, 0))
             )
         )
 
@@ -163,6 +151,6 @@ class HolidayRuleTest(unittest.TestCase):
             holiday.previous(dt),
             (
                 self.utc.localize(datetime.datetime(2015, 12, 25, 0, 0, 0)),
-                self.utc.localize(datetime.datetime(2015, 12, 25, 23, 59, 59)),
+                self.utc.localize(datetime.datetime(2015, 12, 26, 0, 0, 0))
             )
         )

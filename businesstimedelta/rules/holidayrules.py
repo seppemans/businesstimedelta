@@ -16,7 +16,7 @@ class HolidayRule(Rule):
     def __repr__(self):
         return '<HolidayRule: %s>' % (self.holidays)
 
-    def next_holiday(self, date, reverse=False, max_days=365*5):
+    def next_holiday(self, date, reverse=False, max_days=365 * 5):
         """ Get the next holiday
         Args:
             date: Find the next holiday after (or at) this date.
@@ -48,7 +48,7 @@ class HolidayRule(Rule):
         localized_dt = dt.astimezone(self.tz)
         next_holiday = self.next_holiday(localized_dt.date(), reverse=reverse)
         start = self.tz.localize(datetime.datetime.combine(next_holiday, datetime.time(0, 0, 0)))
-        end = self.tz.localize(datetime.datetime.combine(next_holiday, datetime.time(23, 59, 59)))
+        end = start + datetime.timedelta(days=1)
 
         # If we are in the range now, set the start or end date to now.
         if start < dt and end > dt:
