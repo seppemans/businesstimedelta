@@ -70,6 +70,14 @@ class BusinessTimeDeltaTest(unittest.TestCase):
             self.utc.localize(datetime.datetime(2016, 1, 22, 11, 14, 0))
         )
 
+    def test_negation(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=120)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 25, 11, 14, 0))
+        self.assertEqual(
+            dt,
+            dt + td - td
+        )
+
     def test_hours_and_seconds_property(self):
         orig_td = datetime.timedelta(seconds=(3600*2)+1)
         td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
