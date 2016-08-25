@@ -3,16 +3,17 @@ from setuptools import setup
 setup(
     name='businesstimedelta',
     version='0.2',
-    description='Timedelta for business time. Supports exact amounts of time (hours, seconds), custom schedules, holidays, and time zones.',
+    description="Timedelta for business time. Supports exact amounts of time " +
+                "(hours, seconds), custom schedules, holidays, and time zones.",
     classifiers=[
-      'Development Status :: 3 - Alpha',
-      'License :: OSI Approved :: MIT License',
-      'Programming Language :: Python :: 2.7',
-      'Programming Language :: Python :: 3.2',
-      'Programming Language :: Python :: 3.3',
-      'Programming Language :: Python :: 3.4',
-      'Programming Language :: Python :: 3.5',
-      'Topic :: Office/Business :: Scheduling'
+        'Development Status :: 3 - Alpha',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Topic :: Office/Business :: Scheduling'
     ],
     keywords='business working time timedelta hours businesstime businesshours',
     url='http://github.com/seppemans/businesstimedelta',

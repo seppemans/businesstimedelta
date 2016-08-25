@@ -47,7 +47,9 @@ class HolidayRule(Rule):
         dt = localize_unlocalized_dt(dt)
         localized_dt = dt.astimezone(self.tz)
         next_holiday = self.next_holiday(localized_dt.date(), reverse=reverse)
-        start = self.tz.localize(datetime.datetime.combine(next_holiday, datetime.time(0, 0, 0)))
+        start = self.tz.localize(
+            datetime.datetime.combine(
+                next_holiday, datetime.time(0, 0, 0)))
         end = start + datetime.timedelta(days=1)
 
         # If we are in the range now, set the start or end date to now.

@@ -75,7 +75,7 @@ class WorkDayRule(Rule):
 
 class LunchTimeRule(WorkDayRule):
     """Convenience function for lunch breaks."""
-    def __init__(self,  start_time=datetime.time(12), end_time=datetime.time(13),
+    def __init__(self, start_time=datetime.time(12), end_time=datetime.time(13),
                  working_days=[0, 1, 2, 3, 4], *args, **kwargs):
         super(LunchTimeRule, self).__init__(
             start_time=start_time,

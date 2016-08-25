@@ -39,5 +39,5 @@ class RuleTest(unittest.TestCase):
 
         self.assertEqual(
             self.workdayrule.difference(start_dt, end_dt),
-            BusinessTimeDelta(self.workdayrule, hours=8*5)
+            BusinessTimeDelta(self.workdayrule, hours=8 * 5)
         )

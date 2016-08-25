@@ -79,13 +79,13 @@ class BusinessTimeDeltaTest(unittest.TestCase):
         )
 
     def test_hours_and_seconds_property(self):
-        orig_td = datetime.timedelta(seconds=(3600*2)+1)
+        orig_td = datetime.timedelta(seconds=(3600 * 2) + 1)
         td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
         self.assertEqual(td.hours, 2)
         self.assertEqual(td.seconds, 1)
 
     def test_large_hours_and_seconds_property(self):
-        orig_td = datetime.timedelta(seconds=(3600*365)+1)
+        orig_td = datetime.timedelta(seconds=(3600 * 365) + 1)
         td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
         self.assertEqual(td.hours, 365)
         self.assertEqual(td.seconds, 1)
