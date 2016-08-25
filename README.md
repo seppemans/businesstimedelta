@@ -38,7 +38,7 @@ Calculate the business time between two datetimes
 
 ```python
 start = datetime.datetime(2016, 1, 18, 9, 0, 0)
-end = datetime.datetime(2016, 1, 25, 9, 0, 0)
+end = datetime.datetime(2016, 1, 22, 18, 0, 0)
 bdiff = businesshrs.difference(start, end)
 
 print bdiff
@@ -52,10 +52,10 @@ Business time arithmetic
 
 ```python
 print start + businesstimedelta.BusinessTimeDelta(businesshrs, hours=40)
-# 2016-01-25 09:00:00+00:00
+# 2016-01-22 18:00:00+00:00
 
 print end - businesstimedelta.BusinessTimeDelta(businesshrs, hours=40)
-# 2016-01-15 18:00:00+00:00
+# 2016-01-18 09:00:00+00:00
 ```
 
 To define holidays, simply use the [Holidays](https://pypi.python.org/pypi/holidays) package
