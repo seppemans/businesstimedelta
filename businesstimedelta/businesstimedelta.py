@@ -41,7 +41,7 @@ class BusinessTimeDelta(object):
                 period_delta = period_end - period_start
 
                 # If we ran out of timedelta, return
-                if period_delta > td_left:
+                if period_delta >= td_left:
                     return period_start + td_left
 
                 td_left -= period_delta
@@ -64,7 +64,7 @@ class BusinessTimeDelta(object):
                 period_delta = period_end - period_start
 
                 # If we ran out of timedelta, return
-                if period_delta > td_left:
+                if period_delta >= td_left:
                     return period_end - td_left
 
                 td_left -= period_delta

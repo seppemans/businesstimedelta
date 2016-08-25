@@ -25,6 +25,15 @@ class BusinessTimeDeltaTest(unittest.TestCase):
             self.utc.localize(datetime.datetime(2016, 1, 25, 11, 0, 0))
         )
 
+    def test_add_exactly_one_period(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=8)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 22, 9, 0, 0))
+
+        self.assertEqual(
+            dt + td,
+            self.utc.localize(datetime.datetime(2016, 1, 22, 17, 0, 0))
+        )
+
     def test_add_more_than_one_period(self):
         td = BusinessTimeDelta(self.workdayrule, hours=12)
         dt = self.utc.localize(datetime.datetime(2016, 1, 23, 13, 14, 0))
@@ -41,6 +50,15 @@ class BusinessTimeDeltaTest(unittest.TestCase):
         self.assertEqual(
             dt - td,
             self.utc.localize(datetime.datetime(2016, 1, 25, 9, 14, 0))
+        )
+
+    def test_subtract_exactly_one_period(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=8)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 22, 18, 0, 0))
+
+        self.assertEqual(
+            dt - td,
+            self.utc.localize(datetime.datetime(2016, 1, 22, 9, 0, 0))
         )
 
     def test_subtract_more_than_one_period(self):
@@ -121,12 +139,12 @@ class ReadmeTest(unittest.TestCase):
 
         self.assertEqual(
             str(start + BusinessTimeDelta(businesshrs, hours=40)),
-            "2016-01-25 09:00:00+00:00"
+            "2016-01-22 18:00:00+00:00"
         )
 
         self.assertEqual(
             str(end - BusinessTimeDelta(businesshrs, hours=40)),
-            "2016-01-15 18:00:00+00:00"
+            "2016-01-18 09:00:00+00:00"
         )
 
         ca_holidays = pyholidays.US(state='CA')
