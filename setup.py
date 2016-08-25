@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='businesstimedelta',
-    version='0.1',
+    version='0.2',
     description='Timedelta for business time. Supports exact amounts of time (hours, seconds), custom schedules, holidays, and time zones.',
     classifiers=[
       'Development Status :: 3 - Alpha',
