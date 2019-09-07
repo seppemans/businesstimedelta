@@ -70,14 +70,22 @@ class BusinessTimeDeltaTest(unittest.TestCase):
             self.utc.localize(datetime.datetime(2016, 1, 22, 11, 14, 0))
         )
 
+    def test_negation(self):
+        td = BusinessTimeDelta(self.workdayrule, hours=120)
+        dt = self.utc.localize(datetime.datetime(2016, 1, 25, 11, 14, 0))
+        self.assertEqual(
+            dt,
+            dt + td - td
+        )
+
     def test_hours_and_seconds_property(self):
-        orig_td = datetime.timedelta(seconds=(3600*2)+1)
+        orig_td = datetime.timedelta(seconds=(3600 * 2) + 1)
         td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
         self.assertEqual(td.hours, 2)
         self.assertEqual(td.seconds, 1)
 
     def test_large_hours_and_seconds_property(self):
-        orig_td = datetime.timedelta(seconds=(3600*365)+1)
+        orig_td = datetime.timedelta(seconds=(3600 * 365) + 1)
         td = BusinessTimeDelta(self.workdayrule, timedelta=orig_td)
         self.assertEqual(td.hours, 365)
         self.assertEqual(td.seconds, 1)
@@ -178,4 +186,25 @@ class ReadmeTest(unittest.TestCase):
 
         bdiff = santiago_businesshrs.difference(sf_start, sf_end)
         self.assertEqual(bdiff.hours, 4)
+        self.assertEqual(bdiff.seconds, 0)
+
+    def test_readme_nightshift(self):
+        workday = WorkDayRule(
+            start_time=datetime.time(9),
+            end_time=datetime.time(17),
+            working_days=[0, 1, 2, 3, 4],
+            tz=pytz.utc)
+
+        nightshift = WorkDayRule(
+            start_time=datetime.time(23),
+            end_time=datetime.time(7),
+            working_days=[0, 1, 2, 3, 4])
+
+        businesshrs = Rules([workday, nightshift])
+
+        start = datetime.datetime(2016, 1, 18, 9, 0, 0)
+        end = datetime.datetime(2016, 1, 25, 9, 0, 0)
+
+        bdiff = businesshrs.difference(start, end)
+        self.assertEqual(bdiff.hours, 80)
         self.assertEqual(bdiff.seconds, 0)

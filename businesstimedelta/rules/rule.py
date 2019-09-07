@@ -42,7 +42,7 @@ class Rule(object):
             if period_end > end_dt:
                 last_day_add = max(end_dt - period_start, datetime.timedelta())
                 result = td_sum + last_day_add
-                return BusinessTimeDelta(self, hours=result.days*24, seconds=result.seconds)
+                return BusinessTimeDelta(self, hours=result.days * 24, seconds=result.seconds)
 
             dt = period_end
             td_sum += period_delta
