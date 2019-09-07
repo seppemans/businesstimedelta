@@ -81,5 +81,5 @@ class LunchTimeRule(WorkDayRule):
             start_time=start_time,
             end_time=end_time,
             working_days=working_days,
+            time_off=True,
             *args, **kwargs)
-        self.time_off = True
