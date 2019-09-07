@@ -41,3 +41,19 @@ class RuleTest(unittest.TestCase):
             self.workdayrule.difference(start_dt, end_dt),
             BusinessTimeDelta(self.workdayrule, hours=8 * 5)
         )
+
+
+class AdversarialRuleTest(unittest.TestCase):
+    def test_no_workday_hours(self):
+        self.workdayrule = WorkDayRule(
+            start_time=datetime.time(9),
+            end_time=datetime.time(9),
+            working_days=[0, 1, 2, 3, 4])
+
+        start_dt = datetime.datetime(2016, 1, 21, 10, 0, 0)
+        end_dt = datetime.datetime(2016, 1, 21, 10, 0, 5)
+
+        self.assertEqual(
+            self.workdayrule.difference(start_dt, end_dt),
+            BusinessTimeDelta(self.workdayrule, seconds=0, hours=0)
+        )
