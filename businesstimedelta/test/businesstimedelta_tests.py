@@ -187,3 +187,24 @@ class ReadmeTest(unittest.TestCase):
         bdiff = santiago_businesshrs.difference(sf_start, sf_end)
         self.assertEqual(bdiff.hours, 4)
         self.assertEqual(bdiff.seconds, 0)
+
+    def test_readme_nightshift(self):
+        workday = WorkDayRule(
+            start_time=datetime.time(9),
+            end_time=datetime.time(17),
+            working_days=[0, 1, 2, 3, 4],
+            tz=pytz.utc)
+
+        nightshift = WorkDayRule(
+            start_time=datetime.time(23),
+            end_time=datetime.time(7),
+            working_days=[0, 1, 2, 3, 4])
+
+        businesshrs = Rules([workday, nightshift])
+
+        start = datetime.datetime(2016, 1, 18, 9, 0, 0)
+        end = datetime.datetime(2016, 1, 25, 9, 0, 0)
+
+        bdiff = businesshrs.difference(start, end)
+        self.assertEqual(bdiff.hours, 80)
+        self.assertEqual(bdiff.seconds, 0)

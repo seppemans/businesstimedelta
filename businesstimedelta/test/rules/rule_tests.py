@@ -57,3 +57,22 @@ class AdversarialRuleTest(unittest.TestCase):
             self.workdayrule.difference(start_dt, end_dt),
             BusinessTimeDelta(self.workdayrule, seconds=0, hours=0)
         )
+
+
+class NightShiftRuleTest(unittest.TestCase):
+    def setUp(self):
+        self.utc = pytz.timezone('UTC')
+        self.workdayrule = WorkDayRule(
+            start_time=datetime.time(23),
+            end_time=datetime.time(1),
+            working_days=[0, 1, 2, 3, 4],
+            tz=self.utc)
+
+    def test_difference_overnight(self):
+        start_dt = self.utc.localize(datetime.datetime(2016, 1, 21, 10, 0, 0))
+        end_dt = self.utc.localize(datetime.datetime(2016, 1, 22, 10, 0, 0))
+
+        self.assertEqual(
+            BusinessTimeDelta(self.workdayrule, hours=2),
+            self.workdayrule.difference(start_dt, end_dt)
+        )

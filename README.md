@@ -100,3 +100,28 @@ sf_end = sf_tz.localize(datetime.datetime(2016, 1, 18, 18, 0, 0))
 print santiago_businesshrs.difference(sf_start, sf_end)
 # <BusinessTimeDelta 4 hours 0 seconds>
 ```
+
+## Overnight Shifts
+```python
+# Day shift
+workday = WorkDayRule(
+    start_time=datetime.time(9),
+    end_time=datetime.time(17),
+    working_days=[0, 1, 2, 3, 4],
+    tz=pytz.utc)
+
+# Night shift
+nightshift = businesstimedelta.WorkDayRule(
+    start_time=datetime.time(23),
+    end_time=datetime.time(7),
+    working_days=[0, 1, 2, 3, 4])
+
+businesshrs = businesstimedelta.Rules([workday, nightshift])
+
+start = datetime.datetime(2016, 1, 18, 9, 0, 0)
+end = datetime.datetime(2016, 1, 22, 18, 0, 0)
+bdiff = businesshrs.difference(start, end)
+
+print bdiff
+# <BusinessTimeDelta 80 hours 0 seconds>
+```
