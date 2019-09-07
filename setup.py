@@ -1,10 +1,15 @@
 from setuptools import setup
 
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name='businesstimedelta',
-    version='1.0',
+    version='1.0.1',
     description="Timedelta for business time. Supports exact amounts of time " +
                 "(hours, seconds), custom schedules, holidays, and time zones.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'License :: OSI Approved :: MIT License',
