@@ -37,7 +37,7 @@ class HolidayRule(Rule):
 
             count += 1
             if count > max_days:
-                return None
+                return datetime.date(9999, 12, 31)
 
     def next(self, dt, reverse=False):
         """Get the start and end of the next holiday after a datetime
